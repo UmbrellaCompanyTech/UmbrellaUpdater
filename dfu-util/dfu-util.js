@@ -659,44 +659,53 @@ var device = null;
             }
         });
 
-        // Get firmware list from bin folder
+        function getFetchHint() {
+            if (location.protocol === 'file:') {
+                return 'このページを file:// で開くと fetch が失敗します。ローカルHTTPサーバーで開いてください（例: `npx serve` / `python -m http.server`）。';
+            }
+            return '';
+        }
+
+        // Get firmware list from firmware.json (array of objects)
         async function getFirmwareList() {
             try {
-                const response = await fetch('bin/');
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const links = doc.querySelectorAll('a[href$=".bin"]');
-                const files = Array.from(links).map(link => {
-                    let href = link.getAttribute('href');
-                    // Extract filename only (remove bin/ prefix if present)
-                    if (href.startsWith('bin/')) {
-                        href = href.substring(4);
-                    } else if (href.startsWith('/bin/')) {
-                        href = href.substring(5);
-                    }
-                    // Return filename only
-                    return href.split('/').pop();
-                });
-                return files;
+                const response = await fetch('firmware.json', { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const list = await response.json();
+                // Expecting: [{ id, name, filepath, description?, bgColor?, active? }, ...]
+                if (!Array.isArray(list)) throw new Error('Invalid firmware.json (expected array)');
+                // Normalize minimal shape we need
+                const items = list
+                    .filter(item => typeof item.filepath === 'string')
+                    .map(item => ({
+                        id: item.id ?? null,
+                        name: item.name ?? (item.filepath.split('/').pop() || 'firmware.bin'),
+                        url: item.filepath,
+                        description: item.description ?? '',
+                        bgColor: item.bgColor ?? '',
+                        active: !!item.active,
+                    }));
+                return { items, error: null };
             } catch (error) {
                 console.error('Failed to get firmware list:', error);
-                return [];
+                return { items: [], error };
             }
         }
 
-        // Load firmware file function
-        async function loadFirmwareFile(filename) {
+        // Load firmware file from given URL (https:// or relative)
+        async function loadFirmwareFileFromUrl(name, url) {
             try {
-                const response = await fetch(`bin/${filename}`);
+                const response = await fetch(url, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const arrayBuffer = await response.arrayBuffer();
                 firmwareFile = arrayBuffer;
-                selectedFirmwareName.textContent = `Selected: ${filename}`;
+                selectedFirmwareName.textContent = `Selected: ${name}`;
                 firmwareSelectDialog.close();
                 return true;
             } catch (error) {
                 console.error('Failed to load firmware file:', error);
-                alert('Failed to load firmware file: ' + error);
+                const hint = getFetchHint();
+                alert('Failed to load firmware file: ' + error + (hint ? `\n\n${hint}` : ''));
                 return false;
             }
         }
@@ -709,25 +718,33 @@ var device = null;
             firmwareList.innerHTML = '<p>Loading...</p>';
             firmwareSelectDialog.showModal();
             
-            const files = await getFirmwareList();
+            const { items, error } = await getFirmwareList();
             
-            if (files.length === 0) {
-                firmwareList.innerHTML = '<p>No .bin files found in bin folder.</p>';
+            if (items.length === 0) {
+                const hint = getFetchHint();
+                const errText = error ? String(error) : 'No firmware entries found in firmware.json.';
+                firmwareList.innerHTML = `<p style="color:red;">${errText}</p>` + (hint ? `<p>${hint}</p>` : '');
                 return;
             }
             
             firmwareList.innerHTML = '';
             const ul = document.createElement('ul');
-            files.forEach(filename => {
+            items.forEach(item => {
                 const li = document.createElement('li');
                 const button = document.createElement('button');
                 button.type = 'button';
-                button.textContent = filename;
+                button.textContent = item.name;
                 button.style.cssText = 'margin: 5px; padding: 5px 10px; cursor: pointer;';
+                if (item.bgColor) {
+                    button.style.backgroundColor = item.bgColor;
+                }
+                if (item.description) {
+                    button.title = item.description;
+                }
                 button.addEventListener('click', async function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    await loadFirmwareFile(filename);
+                    await loadFirmwareFileFromUrl(item.name, item.url);
                 });
                 li.appendChild(button);
                 ul.appendChild(li);
