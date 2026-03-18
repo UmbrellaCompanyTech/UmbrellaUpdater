@@ -737,6 +737,9 @@ var device = null;
                 button.style.cssText = 'margin: 5px; padding: 5px 10px; cursor: pointer;';
                 if (item.bgColor) {
                     button.style.backgroundColor = item.bgColor;
+                    // sakura.css sets button text to white; ensure contrast on light bgColor
+                    button.style.color = '#4a4a4a';
+                    button.style.borderColor = '#4a4a4a';
                 }
                 if (item.description) {
                     button.title = item.description;
