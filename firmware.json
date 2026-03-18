@@ -2,7 +2,7 @@
     {
         "id": 0,
         "name": "Hume",
-        "filepath": "https://github.com/UmbrellaCompanyTech/firmware/blob/main/bin/hume_v1.bin",
+        "filepath": "https://github.com/UmbrellaCompanyTech/firmware/raw/refs/heads/main/bin/hume_v1.bin",
         "description": "Umbrella Company Hume Firmware",
         "bgColor": "#fffaf0",
         "active": false
