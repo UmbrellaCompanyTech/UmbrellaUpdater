@@ -661,7 +661,7 @@ var device = null;
 
         function getFetchHint() {
             if (location.protocol === 'file:') {
-                return 'このページを file:// で開くと fetch が失敗します。ローカルHTTPサーバーで開いてください（例: `npx serve` / `python -m http.server`）。';
+                return '';
             }
             return '';
         }
