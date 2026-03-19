@@ -298,11 +298,12 @@ var device = null;
         selectFirmwareButton.disabled = false;
         updateDnloadButtonState();
 
-        function updateDnloadButtonState() {
+        function updateDnloadButtonState(currentDevice = device) {
             // Enable download when connected and device supports download + firmware selected.
-            // (Avoid relying solely on interfaceProtocol; it can vary by interface/browsers.)
-            const isConnected = !!(device && device.device_ && device.device_.opened);
-            const canDnload = !!(device && device.properties && device.properties.CanDnload);
+            // Note: `connect(device)` receives a parameter named `device` which is NOT the global `device`.
+            // Always evaluate the state against the device instance passed in.
+            const isConnected = !!(currentDevice && currentDevice.device_ && currentDevice.device_.opened);
+            const canDnload = !!(currentDevice && currentDevice.properties && currentDevice.properties.CanDnload);
             downloadButton.disabled = !(isConnected && canDnload && firmwareFile);
         }
 
@@ -319,7 +320,7 @@ var device = null;
             firmwareFileField.disabled = true;
             // Allow firmware selection even before connecting; keep selection across disconnects.
             selectFirmwareButton.disabled = false;
-            updateDnloadButtonState();
+            updateDnloadButtonState(null);
         }
 
         function onUnexpectedDisconnect(event) {
@@ -439,7 +440,7 @@ var device = null;
                 firmwareFileField.disabled = false;
                 selectFirmwareButton.disabled = false;
             }
-            updateDnloadButtonState();
+            updateDnloadButtonState(device);
 
             if (device.memoryInfo) {
                 let dfuseFieldsDiv = document.querySelector("#dfuseFields")
@@ -780,7 +781,6 @@ var device = null;
             firmwareList.appendChild(ul);
         });
 
-        // キャンセルボタンのイベントリスナー
         cancelFirmwareSelectButton.addEventListener('click', function() {
             firmwareSelectDialog.close();
         });
