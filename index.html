@@ -52,6 +52,10 @@
       </datalist>
     </p>
     <p>
+      <button id="selectFirmware" disabled="true">Select Firmware</button>
+      <span id="selectedFirmwareName" style="margin-left: 10px;"></span>
+    </p>
+    <p>
       <button id="connect">Connect</button>
     </p>
     <dialog id="interfaceDialog" style="display: none;">
@@ -77,10 +81,6 @@
         <label for="dfuseUploadSize" style="display: none;">DfuSe Upload Size:</label>
         <input type="number" name="dfuseUploadSize" id="dfuseUploadSize" min="1" style="display: none;"/>
       </div>
-      <p>
-        <button id="selectFirmware" disabled="true">Select Firmware</button>
-        <span id="selectedFirmwareName" style="margin-left: 10px;"></span>
-      </p>
       <p style="display: none;">
         <input type="file" id="firmwareFile" name="file" disabled="true"/>
       </p>
