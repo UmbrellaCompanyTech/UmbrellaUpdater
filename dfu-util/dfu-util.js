@@ -183,6 +183,13 @@ var device = null;
     }
 
     function logWarning(msg) {
+        // After a successful firmware update, devices often reboot/disconnect.
+        // Suppress scary but expected status polling messages in the UI log.
+        const msgStr = String(msg);
+        if (msgStr.startsWith("getStatus failed, retrying") ||
+            msgStr.includes("Failed to get status after 3 retries: Device disconnected (expected after firmware update)")) {
+            return;
+        }
         if (logContext) {
             let warning = document.createElement("p");
             warning.className = "warning";
@@ -192,6 +199,11 @@ var device = null;
     }
 
     function logError(msg) {
+        // Suppress expected disconnect message after a successful update.
+        const msgStr = String(msg);
+        if (msgStr.includes("Failed to get status after 3 retries: Device disconnected (expected after firmware update)")) {
+            return;
+        }
         if (logContext) {
             let error = document.createElement("p");
             error.className = "error";

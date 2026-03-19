@@ -571,8 +571,16 @@ var dfu = {};
                 const errStr = (error && typeof error === "object" && error.message) ? error.message : String(error);
                 // When the device disconnects as part of a successful firmware update,
                 // suppress noisy retries and exit gracefully.
-                if (errStr.includes("expected after firmware update")) {
-                    this.logDebug("Device disconnected (expected after firmware update); stopping status polling");
+                // Different browsers/USB stacks may surface this as NotFoundError / Device unavailable, etc.
+                const looksLikeExpectedDisconnect =
+                    errStr.includes("expected after firmware update") ||
+                    errStr.toLowerCase().includes("disconnected") ||
+                    errStr.includes("NotFoundError") ||
+                    errStr.includes("Device unavailable") ||
+                    errStr.includes("Device disconnected");
+
+                if (looksLikeExpectedDisconnect) {
+                    this.logDebug("Stopping status polling due to expected disconnect/reboot");
                     return { status: dfu.STATUS_OK, state: dfu.dfuIDLE, pollTimeout: 0 };
                 }
                 retryCount++;
