@@ -294,6 +294,16 @@ var device = null;
         let manifestationTolerant = true;
 
         //let device;
+        // Allow selecting firmware before connecting.
+        selectFirmwareButton.disabled = false;
+        updateDnloadButtonState();
+
+        function updateDnloadButtonState() {
+            // Enable download only when connected in DFU mode and a firmware is selected
+            const inDfuMode = !!(device && device.settings && device.settings.alternate &&
+                                device.settings.alternate.interfaceProtocol != 0x01);
+            downloadButton.disabled = !(inDfuMode && firmwareFile);
+        }
 
         function onDisconnect(reason) {
             if (reason) {
@@ -305,11 +315,10 @@ var device = null;
             dfuDisplay.textContent = "";
             detachButton.disabled = true;
             uploadButton.disabled = true;
-            downloadButton.disabled = true;
             firmwareFileField.disabled = true;
-            selectFirmwareButton.disabled = true;
-            selectedFirmwareName.textContent = "";
-            firmwareFile = null;
+            // Allow firmware selection even before connecting; keep selection across disconnects.
+            selectFirmwareButton.disabled = false;
+            updateDnloadButtonState();
         }
 
         function onUnexpectedDisconnect(event) {
@@ -418,17 +427,16 @@ var device = null;
                 // Runtime
                 detachButton.disabled = false;
                 uploadButton.disabled = true;
-                downloadButton.disabled = true;
                 firmwareFileField.disabled = true;
-                selectFirmwareButton.disabled = true;
+                selectFirmwareButton.disabled = false;
             } else {
                 // DFU
                 detachButton.disabled = true;
                 uploadButton.disabled = false;
-                downloadButton.disabled = false;
                 firmwareFileField.disabled = false;
                 selectFirmwareButton.disabled = false;
             }
+            updateDnloadButtonState();
 
             if (device.memoryInfo) {
                 let dfuseFieldsDiv = document.querySelector("#dfuseFields")
@@ -666,6 +674,7 @@ var device = null;
                 let reader = new FileReader();
                 reader.onload = function() {
                     firmwareFile = reader.result;
+                    updateDnloadButtonState();
                 };
                 reader.readAsArrayBuffer(file);
             }
@@ -713,6 +722,7 @@ var device = null;
                 firmwareFile = arrayBuffer;
                 selectedFirmwareName.textContent = `Selected: ${name}`;
                 firmwareSelectDialog.close();
+                updateDnloadButtonState();
                 return true;
             } catch (error) {
                 console.error('Failed to load firmware file:', error);
