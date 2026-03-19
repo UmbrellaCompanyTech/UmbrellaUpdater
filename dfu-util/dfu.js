@@ -568,6 +568,13 @@ var dfu = {};
                 dfu_status = await this.getStatus();
                 break;
             } catch (error) {
+                const errStr = (error && typeof error === "object" && error.message) ? error.message : String(error);
+                // When the device disconnects as part of a successful firmware update,
+                // suppress noisy retries and exit gracefully.
+                if (errStr.includes("expected after firmware update")) {
+                    this.logDebug("Device disconnected (expected after firmware update); stopping status polling");
+                    return { status: dfu.STATUS_OK, state: dfu.dfuIDLE, pollTimeout: 0 };
+                }
                 retryCount++;
                 if (retryCount >= maxRetries) {
                     throw "Failed to get status after " + maxRetries + " retries: " + error;

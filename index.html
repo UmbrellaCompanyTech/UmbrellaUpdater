@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="sakura.css" />
+    <link rel="stylesheet" type="text/css" href="custom.css" />
     <title>Umbrella Web Updater</title>
     <script src="dfu-util/dfu.js"></script>
     <script src="dfu-util/dfuse.js"></script>
@@ -33,21 +34,6 @@
       }
       button {
         margin: 5px;
-      }
-
-      .howto-box {
-        background:#ffffff;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin: 16px auto;
-        text-align: left;
-        max-width: 640px;
-      }
-      .howto-box h2 {
-        margin-top: 0;
-        text-align: center;
       }
     </style>
   </head>
@@ -120,15 +106,25 @@
     <div class="howto-box">
       <h2>How to use</h2>
       <p>
-        ・ペダルの電源を切る<br>
-        ・USB CケーブルでPCと接続する<br>
-        ・両方のペダルのフットスイッチを押しながら、電源を入れる<br>
-        ・「<strong>Connect</strong>」ボタンを押す<br>
-        ・「<strong>DFU in FS Mode</strong>」を選択し接続する<br>
-        ・「<strong>Select Firmware</strong>」ボタンを押し、ファームウェアを選択する<br>
-        ・「<strong>Upload</strong>」ボタンを押し、ファームウェアをアップロードする<br>
-        ・「<strong>Done</strong>」と表示されるまで待つ<br>
-        ・ペダルが自動的に再起動したら完了!<br>
+        1. Unplug the power cable.<br>
+        2. Connect the pedal to your PC using a USB-C cable.<br>
+        3. While holding down both footswitch, power on the pedal.<br>
+        4. Click the "Connect" button.<br>
+        5. Select "FS in DFU mode" from the list.<br>
+        6. Click the "Select Firmware" button and choose the firmware.<br>
+        7. Click the "Upload" button.<br>
+        8. Wait until “Done” is displayed.<br>
+        9. The pedal will reboot automatically and then your pedal is now updated!<br>
+        <br>
+        1. ペダルの電源を切る<br>
+        2. USB CケーブルでPCと接続する<br>
+        3. 両方のペダルのフットスイッチを押しながら、電源を入れる<br>
+        4. 「<strong>Connect</strong>」ボタンを押す<br>
+        5. 「<strong>DFU in FS Mode</strong>」を選択し接続する<br>
+        6. 「<strong>Select Firmware</strong>」ボタンを押し、ファームウェアを選択する<br>
+        7. 「<strong>Upload</strong>」ボタンを押し、ファームウェアをアップロードする<br>
+        8. 「<strong>Done</strong>」と表示されるまで待つ<br>
+        9. ペダルが自動的に再起動したら完了!<br>
       </p>
     </div>
     <h1 style="display: none;">Prerequisites</h1>

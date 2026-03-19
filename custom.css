@@ -1,0 +1,16 @@
+.howto-box {
+  background:#ffffff;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px auto;
+  text-align: left;
+  max-width: 640px;
+}
+
+.howto-box h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
