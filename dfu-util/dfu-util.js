@@ -371,7 +371,9 @@ var device = null;
                 }
 
                 if (desc.DFUVersion == 0x011a && device.settings.alternate.interfaceProtocol == 0x02) {
+                    // Wrap in DfuSe device but preserve parsed DFU capabilities (CanDnload, etc.)
                     device = new dfuse.Device(device.device_, device.settings);
+                    device.properties = desc;
                     if (device.memoryInfo) {
                         let totalSize = 0;
                         for (let segment of device.memoryInfo.segments) {
