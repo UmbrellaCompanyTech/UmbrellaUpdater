@@ -299,10 +299,11 @@ var device = null;
         updateDnloadButtonState();
 
         function updateDnloadButtonState() {
-            // Enable download only when connected in DFU mode and a firmware is selected
-            const inDfuMode = !!(device && device.settings && device.settings.alternate &&
-                                device.settings.alternate.interfaceProtocol != 0x01);
-            downloadButton.disabled = !(inDfuMode && firmwareFile);
+            // Enable download when connected and device supports download + firmware selected.
+            // (Avoid relying solely on interfaceProtocol; it can vary by interface/browsers.)
+            const isConnected = !!(device && device.device_ && device.device_.opened);
+            const canDnload = !!(device && device.properties && device.properties.CanDnload);
+            downloadButton.disabled = !(isConnected && canDnload && firmwareFile);
         }
 
         function onDisconnect(reason) {
