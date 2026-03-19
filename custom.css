@@ -14,3 +14,80 @@
   text-align: center;
 }
 
+p.warning {
+  color: red;
+}
+p.error {
+  color: red;
+  font-weight: bold;
+}
+label.radio {
+  display: inline;
+}
+input:invalid {
+  color: red;
+}
+body {
+  text-align: center;
+}
+#configForm {
+  text-align: center;
+}
+#configForm p {
+  text-align: center;
+}
+button {
+  margin: 5px;
+}
+
+/* Driver install callout (Windows only) */
+.driver-install {
+  position: relative;
+  display: inline-block;
+  color: #0b5fff;
+  cursor: help;
+  line-height: 1.6;
+  text-decoration: none;
+}
+.driver-install:hover,
+.driver-install:focus-within {
+  outline: 2px solid #0b5fff;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.driver-install__tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: min(520px, 92vw);
+  text-align: left;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #1b1b1b;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 140ms ease, visibility 140ms ease;
+}
+.driver-install:hover .driver-install__tooltip,
+.driver-install:focus-within .driver-install__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.driver-install__tooltip b {
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.driver-install__tooltip ol {
+  margin: 6px 0 0 18px;
+}
+.driver-install__tooltip li {
+  margin: 2px 0;
+}

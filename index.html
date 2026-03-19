@@ -9,33 +9,6 @@
     <script src="dfu-util/dfuse.js"></script>
     <script src="dfu-util/FileSaver.js"></script>
     <script src="dfu-util/dfu-util.js"></script>
-    <style>
-      p.warning {
-        color: red;
-      }
-      p.error {
-        color: red;
-        font-weight: bold;
-      }
-      label.radio {
-        display: inline;
-      }
-      input:invalid {
-        color:red;
-      }
-      body {
-        text-align: center;
-      }
-      #configForm {
-        text-align: center;
-      }
-      #configForm p {
-        text-align: center;
-      }
-      button {
-        margin: 5px;
-      }
-    </style>
   </head>
   <body>
     <h2>Umbrella Web Updater</h2>
@@ -105,28 +78,65 @@
     </form>
     <div class="howto-box">
       <h2>How to use</h2>
-      <p>
+  
         1. Click the "<strong>Select Firmware</strong>" button and choose the firmware.<br>
         2. Unplug the power cable.<br>
         3. Connect the pedal to your PC using a USB-C cable.<br>
         4. While holding down both footswitch, power on the pedal.<br>
-        5. Click the "<strong>Connect</strong>" button.<br>
-        6. Select "<strong>FS in DFU mode</strong>" from the list.<br>
-        7. Click the "<strong>Write to Device</strong>" button.<br>
-        8. Wait until “<strong>Done!</strong>” is displayed.<br>
-        9. The pedal will reboot automatically and then your pedal is now updated!<br>
+        5. ※Windows only
+        <span class="driver-install" tabindex="0" aria-label="install driver">
+          Install Windows driver
+          <span class="driver-install__tooltip" role="tooltip">
+            <b>Windows only. Not necessary on Mac.</b><br>
+            <ol>
+              <li>5.1. Connect the pedal to your PC in bootload mode (perform steps 1-4 of this procedure).</li>
+              <li>5.2. Download and open <a href="https://zadig.akeo.ie/">Zadig</a></li>
+              <li>5.3. Click &quot;<strong>Options</strong>&quot;→&quot;<strong>List All Devices</strong>&quot;</li>
+              <li>5.4. Select &quot;<strong>DFU in FS Mode</strong>&quot; from the list.</li>
+              <li>5.5. Click &quot;<strong>Upgrade Driver</strong>&quot;</li>
+              <li>5.6. Wait a moment for the installation to complete.</li>
+              <li><iframe width="400" height="300" src="https://www.youtube.com/embed/riYThRYxfsk?si=2MlyGIecWldVHVqZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></li>
+            </ol>
+          </span>
+        </span><br>
+        6. Click the "<strong>Connect</strong>" button.<br>
+        7. Select "<strong>FS in DFU mode</strong>" from the list.<br>
+        8. Click the "<strong>Write to Device</strong>" button.<br>
+        9. Wait until “<strong>Done!</strong>” is displayed.<br>
+        10. The pedal will reboot automatically and then your pedal is now updated!<br>
         <br>
+      
+        
       <h2>使い方</h2>
+      
         1. 「<strong>Select Firmware</strong>」ボタンを押し、ファームウェアを選択する<br>
         2. ペダルの電源を切る<br>
         3. USB CケーブルでPCと接続する<br>
         4. 両方のペダルのフットスイッチを押しながら、電源を入れる<br>
-        5. 「<strong>Connect</strong>」ボタンを押す<br>
-        6. 「<strong>DFU in FS Mode</strong>」を選択し接続する<br>
-        7. 「<strong>Write to Device</strong>」ボタンを押し、ファームウェアをアップロードする<br>
-        8. 「<strong>Done!</strong>」と表示されるまで待つ<br>
-        9. ペダルが自動的に再起動したら完了!<br>
-      </p>
+        5. ※Windowsの場合のみ
+
+        <span class="driver-install" tabindex="0" aria-label="install driver">
+          ドライバーのインストール
+          <span class="driver-install__tooltip" role="tooltip">
+            <b>Windowsの場合のみ Macではこの手順は不要です</b><br>
+            <ol>
+              <li>5.1. ペダルをブートロードモードでPCに接続(この手順の 4 までを行う)</li>
+              <li>5.2. <a href="https://zadig.akeo.ie/">Zadig</a>をダウンロードして開く</li>
+              <li>5.3. 「<strong>Options</strong>」→「<strong>List All Devices</strong>」をクリック</li>
+              <li>5.4. リストから「<strong>DFU in FS Mode</strong>」を選ぶ</li>
+              <li>5.5. 「<strong>Upgrade Driver</strong>」をクリック</li>
+              <li>5.6. インストールが完了するまで少し待つ</li>
+              <li><iframe width="400" height="300" src="https://www.youtube.com/embed/riYThRYxfsk?si=2MlyGIecWldVHVqZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></li>
+            </ol>
+          </span>
+          
+        </span><br>
+        6. 「<strong>Connect</strong>」ボタンを押す<br>
+        7. 「<strong>DFU in FS Mode</strong>」を選択し接続する<br>
+        8. 「<strong>Write to Device</strong>」ボタンを押し、ファームウェアをアップロードする<br>
+        9. 「<strong>Done!</strong>」と表示されるまで待つ<br>
+        10. ペダルが自動的に再起動したら完了!<br>
+ 
     </div>
     <h1 style="display: none;">Prerequisites</h1>
     <p style="display: none;">In order to run this demo, you will need:</p>
@@ -139,6 +149,6 @@
         <p>For a WebUSB friendly USB DFU bootloader that can be flashed onto <a href="http://wiki.stm32duino.com/index.php?title=Blue_Pill">inexpensive STM32F103 boards</a>, check out the <a href="https://github.com/devanlai/dapboot">dapboot</a> project.</p>
         <p>Some recent STM32 parts have on-chip USB DfuSe bootloaders that are supported by this site.</p>
       </li>
-    <ul>
+    </ul>
   </body>
 </html>
