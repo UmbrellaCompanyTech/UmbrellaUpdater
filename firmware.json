@@ -1,10 +1,18 @@
 [
     {
         "id": 0,
-        "name": "Hume v1.0.0",
-        "filepath": "https://raw.githubusercontent.com/UmbrellaCompanyTech/firmware/main/bin/hume_v1.bin",
+        "name": "Hume v1.0.1(latest)",
+        "filepath": "https://raw.githubusercontent.com/UmbrellaCompanyTech/firmware/main/bin/hume_v1.0.1.bin",
         "description": "Umbrella Company Hume Firmware",
         "bgColor": "#fffaf0",
-        "active": false
+        "active": true
+    },
+    {
+        "id": 1,
+        "name": "Hume v1.0.0",
+        "filepath": "https://raw.githubusercontent.com/UmbrellaCompanyTech/firmware/main/bin/hume_v1.0.0.bin",
+        "description": "Umbrella Company Hume Firmware",
+        "bgColor": "#fffaf0",
+        "active": true
     }
 ]
