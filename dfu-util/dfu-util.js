@@ -691,10 +691,22 @@ var device = null;
             return '';
         }
 
-        // Get firmware list from firmware.json (array of objects)
+        async function getFirmwareListUrl() {
+            // place.json shape: [{ firmwarelist: "https://.../firmware.json" }]
+            const response = await fetch('place.json', { cache: 'no-cache' });
+            if (!response.ok) throw new Error(`place.json HTTP ${response.status}`);
+            const place = await response.json();
+            if (!Array.isArray(place) || !place[0] || typeof place[0].firmwarelist !== 'string') {
+                throw new Error('Invalid place.json (expected [{ firmwarelist: string }])');
+            }
+            return place[0].firmwarelist;
+        }
+
+        // Get firmware list from remote firmware.json (array of objects)
         async function getFirmwareList() {
             try {
-                const response = await fetch('firmware.json', { cache: 'no-cache' });
+                const firmwareListUrl = await getFirmwareListUrl();
+                const response = await fetch(firmwareListUrl, { cache: 'no-cache' });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const list = await response.json();
                 // Expecting: [{ id, name, filepath, description?, bgColor?, active? }, ...]
