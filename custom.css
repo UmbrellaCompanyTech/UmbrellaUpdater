@@ -1,12 +1,33 @@
+.main-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, calc(50vw - 24px)) minmax(420px, calc(50vw - 24px));
+  align-items: flex-start;
+  gap: 24px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 32px 0 12px;
+}
+.main-controls {
+  min-width: 260px;
+  width: 100%;
+  max-width: none;
+  text-align: center;
+  align-self: flex-start;
+  position: sticky;
+  top: 16px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
 .howto-box {
   background:#ffffff;
-  display: inline-block;
+  flex: 2 1 420px;
+  min-width: 0;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 12px 16px;
-  margin: 16px auto;
+  margin: 0;
   text-align: left;
-  max-width: 640px;
+  max-width: 960px;
 }
 
 .howto-box h2 {
@@ -29,6 +50,7 @@ input:invalid {
 }
 body {
   text-align: center;
+  max-width: none;
 }
 #configForm {
   text-align: center;
@@ -90,4 +112,23 @@ button {
 }
 .driver-install__tooltip li {
   margin: 2px 0;
+}
+
+@media (max-width: 920px) {
+  .main-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .main-controls,
+  .howto-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .main-controls {
+    position: static;
+    top: auto;
+  }
 }
