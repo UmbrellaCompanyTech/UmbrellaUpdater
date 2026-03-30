@@ -60,6 +60,23 @@ body {
 }
 button {
   margin: 5px;
+  background: #0046AF;
+  color: #ffffff;
+  border: 1px solid #003a8c;
+  border-radius: 6px;
+  padding: 0.7em 1.2em;
+  cursor: pointer;
+  transition: background-color 150ms ease, transform 150ms ease, border-color 150ms ease;
+}
+
+button:hover,
+button:focus-visible {
+  background: #002053;
+  border-color: #002f70;
+}
+
+button:active {
+  background: #002f70;
 }
 
 /* Driver install callout (Windows only) */
@@ -80,7 +97,7 @@ button {
 .driver-install__tooltip {
   position: absolute;
   left: 50%;
-  top: calc(100% + 10px);
+  top: 100%;
   transform: translateX(-50%);
   width: min(520px, 92vw);
   text-align: left;
@@ -97,7 +114,8 @@ button {
   transition: opacity 140ms ease, transform 140ms ease, visibility 140ms ease;
 }
 .driver-install:hover .driver-install__tooltip,
-.driver-install:focus-within .driver-install__tooltip {
+.driver-install:focus-within .driver-install__tooltip,
+.driver-install__tooltip:hover {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
