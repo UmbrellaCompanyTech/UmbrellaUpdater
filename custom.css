@@ -42,6 +42,17 @@ p.error {
   color: red;
   font-weight: bold;
 }
+#status.warning,
+#status.error {
+  color: red;
+  font-weight: bold;
+  white-space: pre-line;
+}
+#status.warning,
+#status.error {
+  color: red;
+  font-weight: bold;
+}
 label.radio {
   display: inline;
 }

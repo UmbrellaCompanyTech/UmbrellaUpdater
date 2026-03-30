@@ -237,6 +237,11 @@ var device = null;
         let statusDisplay = document.querySelector("#status");
         let infoDisplay = document.querySelector("#usbInfo");
         let dfuDisplay = document.querySelector("#dfuInfo");
+
+        function setStatus(text, className = "") {
+            statusDisplay.textContent = text;
+            statusDisplay.className = className;
+        }
         let vidField = document.querySelector("#vid");
         let interfaceDialog = document.querySelector("#interfaceDialog");
         let interfaceForm = document.querySelector("#interfaceForm");
@@ -309,7 +314,7 @@ var device = null;
 
         function onDisconnect(reason) {
             if (reason) {
-                statusDisplay.textContent = reason;
+                setStatus(reason);
             }
 
             connectButton.textContent = "Connect";
@@ -415,7 +420,7 @@ var device = null;
             clearLog(downloadLog);
 
             // Display basic USB information
-            statusDisplay.textContent = '';
+            setStatus('');
             connectButton.textContent = 'Disconnect';
             infoDisplay.textContent = (
                 "Name: " + device.device_.productName + "\n" +
@@ -480,7 +485,7 @@ var device = null;
                     }
 
                     if (matching_devices.length == 0) {
-                        statusDisplay.textContent = 'No device found.';
+                        setStatus('No device found.');
                     } else {
                         // Automatically select interface containing Internal Flash
                         let selectedDevice = null;
@@ -504,7 +509,7 @@ var device = null;
                         }
                         
                         if (selectedDevice) {
-                            statusDisplay.textContent = 'Connecting...';
+                            setStatus('Connecting...');
                             // Fix interface names if needed
                             if (selectedDevice.device_ && selectedDevice.device_.opened === false) {
                                 let interfaces = dfu.findDeviceDfuInterfaces(selectedDevice.device_);
@@ -572,7 +577,7 @@ var device = null;
                         let interfaces = dfu.findDeviceDfuInterfaces(selectedDevice);
                         if (interfaces.length == 0) {
                             console.log(selectedDevice);
-                            statusDisplay.textContent = "The selected device does not have any USB DFU interfaces.";
+                            setStatus("The selected device does not have any USB DFU interfaces.");
                         } else if (interfaces.length == 1) {
                             await fixInterfaceNames(selectedDevice, interfaces);
                             device = await connect(new dfu.Device(selectedDevice, interfaces[0]));
@@ -596,7 +601,7 @@ var device = null;
                         }
                     }
                 ).catch(error => {
-                    statusDisplay.textContent = error;
+                    setStatus(error);
                 });
             }
         });
@@ -878,7 +883,7 @@ var device = null;
                 autoConnect(vid, serial);
             }
         } else {
-            statusDisplay.textContent = 'WebUSB not available.'
+            setStatus('WebUSB not available.\nPlease access this page using a WebUSB-compatible browser such as Chrome or Microsoft Edge on PC.\nPC版のChrome、Microsoft EdgeなどWebUSB対応ブラウザでアクセスしてください。', 'warning');
             connectButton.disabled = true;
         }
     });
